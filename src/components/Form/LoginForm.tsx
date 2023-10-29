@@ -2,18 +2,13 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import supabase from "../../config/supabaseClient.js";
 
 const loginSchema = z.object({
-	username: z
-		.string()
-		.min(3, {
-			message: "Username must be at least 2 characters.",
-		})
-		.max(20),
+	email: z.string(),
 	password: z
 		.string()
 		.min(8, {
@@ -22,17 +17,38 @@ const loginSchema = z.object({
 		.max(100),
 });
 
+const SignIn = async (values: z.infer<typeof loginSchema>) => {
+	const { error } = await supabase.auth.signInWithPassword({
+		email: values.email,
+		password: values.password,
+	});
+	if (error) {
+		// Behandel eventuele fouten bij het inloggen
+		console.error("Fout bij inloggen:", error.message);
+	} else {
+		// Inloggen was succesvol, 'user' bevat de gebruikersgegevens
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+		console.log("Inloggen was succesvol:", user);
+		window.history.back();
+	}
+};
 function LoginForm() {
 	const form = useForm<z.infer<typeof loginSchema>>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
-			username: "",
+			email: "",
 			password: "",
 		},
 	});
 	function onSubmit(values: z.infer<typeof loginSchema>) {
-		console.log(values);
+		SignIn(values);
 		// call to the subabase for a token on session
+		// if successfull, redirect to the dashboard
+	}
+	function goBack() {
+		window.history.back();
 	}
 	return (
 		<Form {...form}>
@@ -41,13 +57,14 @@ function LoginForm() {
 				className="space-y-8">
 				<FormField
 					control={form.control}
-					name="username"
+					name="email"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Username</FormLabel>
+							<FormLabel>email</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="shadcn"
+									type="email"
+									placeholder="email@provider"
 									{...field}
 								/>
 							</FormControl>
@@ -63,7 +80,8 @@ function LoginForm() {
 							<FormLabel>Password</FormLabel>
 							<FormControl>
 								<Input
-									placeholder="shadcn"
+									type="password"
+									placeholder="password"
 									{...field}
 								/>
 							</FormControl>
@@ -71,7 +89,14 @@ function LoginForm() {
 						</FormItem>
 					)}
 				/>
-				<div className="flex w-full justify-end">
+				<div className="flex w-full justify-between">
+					<Button
+						variant={"link"}
+						type="button"
+						onClick={goBack}>
+						Cancel
+					</Button>
+					<a href="/authentication/register"></a>
 					<Button type="submit">Submit</Button>
 				</div>
 			</form>

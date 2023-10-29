@@ -27,10 +27,10 @@ const routes: RouteObject[] = [
 				path: "login",
 				element: <Login />,
 			},
-			// {
-			//     path: 'register',
-			//     element: <Register />
-			// }
+			{
+				path: "register",
+				// element: <Register />,s
+			},
 		],
 	},
 	{
