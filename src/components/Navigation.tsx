@@ -11,7 +11,6 @@ import {
 	navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { ModeToggle } from "./mode-toggle";
-
 const components: { title: string; href: string; description: string }[] = [
 	{
 		title: "Scores van deze week",
@@ -22,40 +21,35 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function Navigation() {
 	return (
-		// <NavigationMenu>
-		// 	<NavigationMenuList>
-		// 		<NavigationMenuLink> Gekke battle scores</NavigationMenuLink>
-		// 		<NavigationMenuLink> Login</NavigationMenuLink>
-		// 		<ModeToggle />
-		// 	</NavigationMenuList>
-		// </NavigationMenu>
-		<NavigationMenu>
-			<NavigationMenuList>
-				<NavigationMenuItem>
-					<NavigationMenuTrigger>Gekkebattle Scores</NavigationMenuTrigger>
-					<NavigationMenuContent>
-						<ul className="grid w-[200px] gap-3 p-4 md:grid-cols-2 lg:w-[300px] lg:grid-cols-1">
-							{components.map((component) => (
-								<ListItem
-									key={component.title}
-									title={component.title}
-									href={component.href}>
-									{component.description}
-								</ListItem>
-							))}
-						</ul>
-					</NavigationMenuContent>
-				</NavigationMenuItem>
-				<NavigationMenuItem>
-					<a href="/authentication/login">
-						<NavigationMenuLink className={navigationMenuTriggerStyle()}>Login</NavigationMenuLink>
-					</a>
-				</NavigationMenuItem>
-				<NavigationMenuItem>
-					<ModeToggle />
-				</NavigationMenuItem>
-			</NavigationMenuList>
-		</NavigationMenu>
+		<>
+			<NavigationMenu>
+				<NavigationMenuList>
+					<NavigationMenuItem>
+						<NavigationMenuTrigger>Gekkebattle Scores</NavigationMenuTrigger>
+						<NavigationMenuContent>
+							<ul className="grid w-[200px] gap-3 p-4 lg:w-[300px] lg:grid-cols-1">
+								{components.map((component) => (
+									<ListItem
+										key={component.title}
+										title={component.title}
+										href={component.href}>
+										{component.description}
+									</ListItem>
+								))}
+							</ul>
+						</NavigationMenuContent>
+					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<a href="/authentication/login">
+							<p className={navigationMenuTriggerStyle()}>Login</p>
+						</a>
+					</NavigationMenuItem>
+					<NavigationMenuItem>
+						<ModeToggle />
+					</NavigationMenuItem>
+				</NavigationMenuList>
+			</NavigationMenu>
+		</>
 	);
 }
 
