@@ -1,5 +1,6 @@
 "use client";
 import * as z from "zod";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,7 @@ const SignIn = async (values: z.infer<typeof loginSchema>) => {
 	}
 };
 function LoginForm() {
+	const navigate = useNavigate();
 	const form = useForm<z.infer<typeof loginSchema>>({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
@@ -54,7 +56,7 @@ function LoginForm() {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="space-y-8">
+				className="space-y-6">
 				<FormField
 					control={form.control}
 					name="email"
@@ -72,31 +74,38 @@ function LoginForm() {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name="password"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Password</FormLabel>
-							<FormControl>
-								<Input
-									type="password"
-									placeholder="password"
-									{...field}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				<div>
+					<FormField
+						control={form.control}
+						name="password"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Password</FormLabel>
+								<FormControl>
+									<Input
+										type="password"
+										placeholder="password"
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					{/* <Button
+						className="text-sm italic px-0"
+						variant={"link"}
+						onClick={() => navigate("/authentication/register")}>
+						Ik heb nog geen account
+					</Button> */}
+				</div>
 				<div className="flex w-full justify-between">
 					<Button
-						variant={"link"}
+						variant={"ghost"}
 						type="button"
 						onClick={goBack}>
 						Cancel
 					</Button>
-					<a href="/authentication/register"></a>
 					<Button type="submit">Submit</Button>
 				</div>
 			</form>

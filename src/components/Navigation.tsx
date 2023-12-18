@@ -40,6 +40,7 @@ export function Navigation() {
 						</NavigationMenuContent>
 					</NavigationMenuItem>
 					<NavigationMenuItem>
+						{}
 						<a href="/authentication/login">
 							<p className={navigationMenuTriggerStyle()}>Login</p>
 						</a>

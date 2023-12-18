@@ -1,22 +1,13 @@
-import { Suspense, lazy } from "react";
+// import { Suspense, lazy } from "react";
 import type { RouteObject } from "react-router";
-import { LoadingScreen } from "./components/LoadingScreen";
+// import { LoadingScreen } from "./components/LoadingScreen";
 import MainLayout from "./Layout/MainLayout";
 import AuthenticationLayout from "./Layout/AuthenticationLayout";
-
-const Loadable = (Component: any) => (props: JSX.IntrinsicAttributes) =>
-	(
-		<Suspense fallback={<LoadingScreen />}>
-			<Component {...props} />
-		</Suspense>
-	);
-
-// *  AUTHENTICATION PAGES
-const Login = Loadable(lazy(() => import("./Pages/authentication/Login")));
-// const Register = Loadable(lazy(() => import("./pages/authentication/Register")));
-
-//  * HOME PAGE
-const Home = Loadable(lazy(() => import("./Pages/home/Home")));
+import Home from "./Pages/home/Home";
+import Scores from "./Pages/scores/Scores";
+import Test from "./Pages/test/Test";
+import Login from "./Pages/authentication/Login";
+// import Register from "./Pages/authentication/Register";
 
 const routes: RouteObject[] = [
 	{
@@ -29,7 +20,7 @@ const routes: RouteObject[] = [
 			},
 			{
 				path: "register",
-				// element: <Register />,s
+				// element: <Register />,
 			},
 		],
 	},
@@ -50,12 +41,16 @@ const routes: RouteObject[] = [
 				// element: <Home />
 			},
 			{
-				path: "scores",
-				// element: <Home />
+				path: "battle-scores",
+				element: <Scores />,
 			},
 			{
 				path: "settings",
 				// element: <Home />
+			},
+			{
+				path: "test",
+				element: <Test />,
 			},
 		],
 	},
